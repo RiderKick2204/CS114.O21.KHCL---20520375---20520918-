@@ -1,0 +1,39 @@
+def find_square_points(ax, ay, bx, by):
+    # Vector AB
+    dx = bx - ax
+    dy = by - ay
+    
+    # Các đỉnh của hình vuông 1
+    cx1 = ax - dy
+    cy1 = ay + dx
+    dx1 = bx - dy
+    dy1 = by + dx
+    
+    # Các đỉnh của hình vuông 2
+    cx2 = ax + dy
+    cy2 = ay - dx
+    dx2 = bx + dy
+    dy2 = by - dx
+    
+    return [
+        (ax, ay, bx, by, dx1, dy1, cx1, cy1),
+        (ax, ay, cx2, cy2, dx2, dy2, bx, by)
+    ]
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    ax = int(data[0])
+    ay = int(data[1])
+    bx = int(data[2])
+    by = int(data[3])
+    
+    squares = find_square_points(ax, ay, bx, by)
+    
+    for square in squares:
+        print(f"({square[0]}, {square[1]}) ({square[2]}, {square[3]}) ({square[4]}, {square[5]}) ({square[6]}, {square[7]})")
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,42 @@
+def binary_search(arr, x):
+    """Tìm kiếm nhị phân để tìm vị trí của x trong mảng arr."""
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == x:
+            # Tìm vị trí đầu tiên của x trong mảng
+            while mid > 0 and arr[mid - 1] == x:
+                mid -= 1
+            return mid
+        elif arr[mid] < x:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+
+    # Số phần tử trong mảng
+    n = int(data[0])
+
+    # Các phần tử của mảng
+    arr = list(map(int, data[1:n+1]))
+
+    # Số lượng số cần tìm
+    m = int(data[n+1])
+
+    # Các số cần tìm
+    queries = list(map(int, data[n+2:n+2+m]))
+
+    # Tìm kiếm từng số trong queries
+    results = [binary_search(arr, query) for query in queries]
+
+    # In kết quả
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()

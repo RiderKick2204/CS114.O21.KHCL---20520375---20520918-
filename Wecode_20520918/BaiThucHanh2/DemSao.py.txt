@@ -1,0 +1,49 @@
+def count_stars(matrix, m, n):
+    visited = [[False]*n for _ in range(m)]
+    star_count = 0
+
+    # Directions for moving (right and down)
+    directions = [(0, 1), (1, 0)]
+
+    for i in range(m):
+        for j in range(n):
+            if matrix[i][j] == '#' and not visited[i][j]:
+                star_count += 1
+                stack = [(i, j)]
+                visited[i][j] = True
+
+                while stack:
+                    x, y = stack.pop()
+
+                    for dx, dy in directions:
+                        nx, ny = x + dx, y + dy
+                        if 0 <= nx < m and 0 <= ny < n and matrix[nx][ny] == '#' and not visited[nx][ny]:
+                            visited[nx][ny] = True
+                            stack.append((nx, ny))
+
+    return star_count
+
+def main():
+    import sys
+    input = sys.stdin.read().strip().split('\n')
+    num_cases = len(input) // (int(input[0].split()[0]) + 1)
+    index = 0
+    results = []
+
+    for case_num in range(1, num_cases + 1):
+        m, n = map(int, input[index].split())
+        index += 1
+        matrix = []
+        
+        for i in range(m):
+            matrix.append(input[index])
+            index += 1
+        
+        stars = count_stars(matrix, m, n)
+        results.append(f"Case {case_num}: {stars}")
+    
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()

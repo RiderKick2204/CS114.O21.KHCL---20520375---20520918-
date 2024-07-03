@@ -1,0 +1,35 @@
+def can_transform(a, b):
+    if len(a) != len(b):
+        return "NO"
+    
+    a_even = sorted(a[::2])
+    a_odd = sorted(a[1::2])
+    
+    b_even = sorted(b[::2])
+    b_odd = sorted(b[1::2])
+    
+    if a_even == b_even and a_odd == b_odd:
+        return "YES"
+    else:
+        return "NO"
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    t = int(data[0])
+    index = 1
+    
+    results = []
+    for _ in range(t):
+        a = data[index]
+        b = data[index + 1]
+        results.append(can_transform(a, b))
+        index += 2
+    
+    for result in results:
+        print(result)
+
+if __name__ == "__main__":
+    main()

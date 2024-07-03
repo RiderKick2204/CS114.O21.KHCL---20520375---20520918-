@@ -1,0 +1,79 @@
+import heapq
+
+def remove_one_max(heap):
+    # Xóa một số lớn nhất khỏi heap
+    max_val = -heapq.heappop(heap)
+    return max_val
+
+def remove_all_max(heap):
+    # Xóa tất cả các số lớn nhất khỏi heap
+    max_val = -heapq.heappop(heap)
+    while heap and -heap[0] == max_val:
+        heapq.heappop(heap)
+    return max_val
+
+def reduce_one_max(heap, amount):
+    # Giảm một số lớn nhất trong heap đi một lượng amount
+    max_val = -heapq.heappop(heap)
+    heapq.heappush(heap, -(max_val - amount))
+
+def reduce_all_max(heap, amount):
+    # Giảm tất cả các số lớn nhất trong heap đi một lượng amount
+    max_val = -heapq.heappop(heap)
+    new_heap = []
+    while heap and -heap[0] == max_val:
+        heapq.heappop(heap)
+        new_heap.append(-(max_val - amount))
+    heapq.heappush(heap, -(max_val - amount))
+    for val in new_heap:
+        heapq.heappush(heap, val)
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    # Đọc n và m
+    n = int(data[0])
+    m = int(data[1])
+    
+    # Đọc mảng
+    arr = []
+    index = 2
+    for i in range(n):
+        arr.append(int(data[index]))
+        index += 1
+    
+    # Đọc các thao tác
+    operations = []
+    for i in range(m):
+        operations.append(int(data[index]))
+        index += 1
+    
+    # Chuyển mảng thành heap âm (để sử dụng heapq làm heap max)
+    heap = [-num for num in arr]
+    heapq.heapify(heap)
+    
+    # Thực hiện các thao tác
+    for op in operations:
+        if op == -1:
+            remove_one_max(heap)
+        elif op == -2:
+            remove_all_max(heap)
+        elif op == -3:
+            amount = int(data[index])
+            reduce_one_max(heap, amount)
+            index += 1
+        elif op == -4:
+            amount = int(data[index])
+            reduce_all_max(heap, amount)
+            index += 1
+    
+    # Chuyển heap trở lại thành mảng và sắp xếp theo thứ tự giảm dần
+    result = sorted([-num for num in heap], reverse=True)
+    
+    # Xuất kết quả
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()

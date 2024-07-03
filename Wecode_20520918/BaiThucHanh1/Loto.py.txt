@@ -1,0 +1,57 @@
+def is_winner(board, called_numbers):
+    # Đánh dấu các số được gọi ra trên bảng
+    marked = [[False] * 3 for _ in range(3)]
+    for i in range(3):
+        for j in range(3):
+            if board[i][j] in called_numbers:
+                marked[i][j] = True
+    
+    # Kiểm tra các hàng
+    for i in range(3):
+        if all(marked[i]):
+            return True
+    
+    # Kiểm tra các cột
+    for j in range(3):
+        if all(marked[i][j] for i in range(3)):
+            return True
+    
+    # Kiểm tra các đường chéo
+    if all(marked[i][i] for i in range(3)):
+        return True
+    if all(marked[i][2-i] for i in range(3)):
+        return True
+    
+    return False
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    # Đọc bảng 3x3
+    board = []
+    index = 0
+    for i in range(3):
+        row = [int(data[index]), int(data[index+1]), int(data[index+2])]
+        board.append(row)
+        index += 3
+    
+    # Đọc số lượng các số được gọi ra
+    N = int(data[index])
+    index += 1
+    
+    # Đọc các số được gọi ra
+    called_numbers = set()
+    for i in range(N):
+        called_numbers.add(int(data[index]))
+        index += 1
+    
+    # Kiểm tra xem An có thể giành được phần quà hay không
+    if is_winner(board, called_numbers):
+        print("Yes")
+    else:
+        print("No")
+
+if __name__ == "__main__":
+    main()

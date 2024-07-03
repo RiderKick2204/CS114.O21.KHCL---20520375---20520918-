@@ -1,0 +1,36 @@
+def min_elements_to_insert(n, arr):
+    if n == 0:
+        return 0
+    
+    # Sort the array to find min and max
+    arr.sort()
+    
+    # Find min and max
+    min_num = arr[0]
+    max_num = arr[-1]
+    
+    # Generate the full continuous range from min_num to max_num
+    full_range = set(range(min_num, max_num + 1))
+    
+    # Convert arr to set for faster lookup
+    arr_set = set(arr)
+    
+    # Count elements in the full range that are missing in arr
+    count = 0
+    for num in full_range:
+        if num not in arr_set:
+            count += 1
+    
+    return count
+
+# Reading input
+n = int(input())
+arr = []
+for _ in range(n):
+    arr.append(int(input()))
+
+# Calculate minimum elements to insert
+result = min_elements_to_insert(n, arr)
+
+# Print the result
+print(result)

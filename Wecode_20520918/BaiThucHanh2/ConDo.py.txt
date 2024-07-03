@@ -1,0 +1,51 @@
+def count_ferry_trips(l, m, cars):
+    left_queue = []
+    right_queue = []
+    
+    for car in cars:
+        length, side = car
+        if side == "left":
+            left_queue.append(length)
+        else:
+            right_queue.append(length)
+    
+    # Sort queues to process from left to right
+    left_queue.sort()
+    right_queue.sort()
+    
+    trips = 0
+    current_side = "left"  # Start at the left side of the river
+    left_index = 0
+    right_index = 0
+    
+    while left_index < len(left_queue) or right_index < len(right_queue):
+        trips += 1
+        current_load = 0
+        
+        if current_side == "left":
+            while left_index < len(left_queue) and current_load + left_queue[left_index] <= l:
+                current_load += left_queue[left_index]
+                left_index += 1
+            current_side = "right"
+        else:
+            while right_index < len(right_queue) and current_load + right_queue[right_index] <= l:
+                current_load += right_queue[right_index]
+                right_index += 1
+            current_side = "left"
+    
+    return trips
+
+# Reading input
+l, m = map(int, input().split())
+cars = []
+
+for _ in range(m):
+    length, side = input().split()
+    length = int(length)
+    cars.append((length, side))
+
+# Calculate number of ferry trips needed
+result = count_ferry_trips(l, m, cars)
+
+# Print the result
+print(result)
